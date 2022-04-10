@@ -1,6 +1,6 @@
 import "./App.css"
 import { Canvas } from "@react-three/fiber"
-import Board from "./Board"
+import Blocks from "./Blocks"
 
 const App = () => (
   <div className='App'>
@@ -15,7 +15,7 @@ const App = () => (
     >
       <ambientLight intensity={0.2} />
       <pointLight position={[0, 20, 0]} intensity={0.6} />
-      <Board />
+      <Blocks />
     </Canvas>
   </div>
 )
