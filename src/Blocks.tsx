@@ -6,7 +6,7 @@ import * as THREE from "three"
 import { Vector3 } from "three"
 import Piece from "./Piece"
 
-const color = new THREE.Color()
+const tempColor = new THREE.Color()
 
 type pieceType = {
   position: Vector3
@@ -14,8 +14,8 @@ type pieceType = {
 }
 
 const Blocks = () => {
-  const width = 10
-  const height = 10
+  const width = 8
+  const height = 8
   const numberPieces = width * height
 
   const [pieces, setPieces] = useState<pieceType[] | null>(null)
@@ -62,12 +62,13 @@ const Blocks = () => {
           <Block
             key={`block-${i}`}
             coordinates={block}
+            color={i % 2 ? "white" : "black"}
             handleClick={(point) => handleClick(point)}
           />
         ))}
       </Instances>
       {pieces?.map(({ position, height }) =>
-        Array.from({ length: height }, (el, i) => (
+        Array.from({ length: height }, (_, i) => (
           <Piece key={`${position}-${i}`} position={position} height={i + 1} />
         ))
       )}
@@ -78,16 +79,17 @@ const Blocks = () => {
 type blockType = {
   coordinates: Vector3
   handleClick: (point: Vector3) => void
+  color: string
 }
 
-const Block = ({ coordinates, handleClick }: blockType) => {
+const Block = ({ coordinates, color, handleClick }: blockType) => {
   const ref = useRef()
 
   const [hovered, setHover] = useState()
 
   useFrame(() => {
     ref.current.color.lerp(
-      color.set(hovered ? "red" : "white"),
+      tempColor.set(hovered ? "red" : color),
       hovered ? 1 : 0.1
     )
 
