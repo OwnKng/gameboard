@@ -1,10 +1,8 @@
 import "./App.css"
 import { Canvas } from "@react-three/fiber"
 import Blocks from "./Blocks"
-import Plane from "./Plane"
 import { useState } from "react"
 import { Vector3 } from "three"
-import Board from "./Board"
 
 const App = () => {
   const [state, setState] = useState<Vector3[]>([])

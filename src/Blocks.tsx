@@ -20,17 +20,22 @@ const Blocks = () => {
 
   const [pieces, setPieces] = useState<pieceType[] | null>(null)
 
-  const positions = useMemo(() => {
-    const positions = []
+  const board = useMemo(() => {
+    const boardPieces = []
 
     for (let i = 0; i < numberPieces; i++) {
       const x = i % width
       const y = Math.floor(i / width)
-      positions.push(new THREE.Vector3(x, y, 0))
+
+      boardPieces.push({
+        coordinates: new THREE.Vector3(x, y, 0),
+        color:
+          (Math.floor(i / width) % 2) - ((i + 1) % 2) ? "#202020" : "white",
+      })
     }
 
-    return positions
-  }, [width, numberPieces])
+    return boardPieces
+  }, [numberPieces])
 
   const newPoint = (point) => ({ position: point, height: 1 })
 
@@ -58,11 +63,11 @@ const Blocks = () => {
       <Instances limit={numberPieces}>
         <boxGeometry args={[0.9, 0.9, 0.05]} />
         <meshPhongMaterial />
-        {positions.map((block, i) => (
+        {board.map(({ coordinates, color }, i) => (
           <Block
             key={`block-${i}`}
-            coordinates={block}
-            color={i % 2 ? "white" : "black"}
+            coordinates={coordinates}
+            color={color}
             handleClick={(point) => handleClick(point)}
           />
         ))}
